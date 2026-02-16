@@ -1,0 +1,30 @@
+{
+  "yourDetection": [
+    {
+      "name": "Amazon Ads",
+      "category": "advertising",
+      "risk": 7,
+      "domain": "amazon-adsystem.com",
+      "source": "internal",
+      "url": "https://s.amazon-adsystem.com/iu3?d=amazon.com&slot=navFooter&a2=0101e41157fb0d52b472441f4546c1595f03a5ea46a3f0c53217363336f348b8b5fc&old_oo=0&ts=1771249452195&s=AUrFMADouedpIuS0Gb8sJTAsWzLKCc7eyG1_kVk_tEhi&gdpr_consent=&gdpr_consent_avl=&cb=1771249452195"
+    },
+    {
+      "name": "Google Ads / DoubleClick",
+      "category": "advertising",
+      "risk": 7,
+      "domain": "doubleclick.net",
+      "source": "internal",
+      "url": "https://cm.g.doubleclick.net/pixel?google_nid=a9&google_cm&ex=doubleclick.net&gdpr_consent="
+    },
+    {
+      "name": "Taboola",
+      "category": "advertising",
+      "risk": 7,
+      "domain": "taboola.com",
+      "source": "internal",
+      "url": "https://sync.taboola.com/sg/amazon-a9-network/1/rtb"
+    }
+  ],
+  "trackharAnalysis": [],
+  "riskScore": 21
+}

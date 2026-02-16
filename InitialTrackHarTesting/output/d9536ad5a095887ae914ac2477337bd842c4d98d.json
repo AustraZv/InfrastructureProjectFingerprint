@@ -1,0 +1,67 @@
+[
+  {
+    "provider_id": "1",
+    "policy_url": "https://www.sofascore.com/privacy-policy",
+    "provider_name": "SofaScore"
+  },
+  {
+    "provider_id": "2",
+    "policy_url": "https://qualifio.com/privacy-policy/",
+    "provider_name": "Qualifio"
+  },
+  {
+    "provider_id": "5",
+    "policy_url": "https://www.sailthru.com/legal/privacy-statement/",
+    "provider_name": "Sailthru"
+  },
+  {
+    "provider_id": "13",
+    "policy_url": "https://www.quantummetric.com/legal/privacy-policy",
+    "provider_name": "Quantum Metric"
+  },
+  {
+    "provider_id": "14",
+    "policy_url": "https://www.iubenda.com/privacy-policy/347981/full-legal",
+    "provider_name": "Admiral"
+  },
+  {
+    "provider_id": "17",
+    "policy_url": "https://www.twipemobile.com/terms-of-use/",
+    "provider_name": "Twipe"
+  },
+  {
+    "provider_id": "18",
+    "policy_url": "https://eradvice.royallondon.com/policies/privacy-policy",
+    "provider_name": "Royal London Equity Release Advisers"
+  },
+  {
+    "provider_id": "23",
+    "policy_url": "https://x.com/en/privacy",
+    "provider_name": "X"
+  },
+  {
+    "provider_id": "24",
+    "policy_url": "https://www.tiktok.com/legal/page/us/privacy-policy/en",
+    "provider_name": "ByteDance"
+  },
+  {
+    "provider_id": "27",
+    "policy_url": "https://vwo.com/privacy-policy/",
+    "provider_name": "VWO"
+  },
+  {
+    "provider_id": "29",
+    "policy_url": "https://www.mathereconomics.com/privacy-policy/",
+    "provider_name": "Mather Economics, LLC"
+  },
+  {
+    "provider_id": "30",
+    "policy_url": "https://www.spotify.com/uk/legal/privacy-policy/",
+    "provider_name": "Spotify"
+  },
+  {
+    "provider_id": "34",
+    "policy_url": "https://www.arkadium.com/privacy-policy/",
+    "provider_name": "Arkadium"
+  }
+]

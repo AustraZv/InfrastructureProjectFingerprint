@@ -1,0 +1,1 @@
+MG_Utils.domReady(function(){var o,e=document.getElementById("js-voteModal");e&&(MG_Utils.getCookie("vote2020")||((o=new MG_Modal({content:e,closeButton:!1,className:"voteModalWrapper"})).openModal(),MG_Utils.setCookie("vote2020",1)),e=document.querySelector("body"),MG_Utils.addEventHandler(e,"click",function(e){o.closeModal()}))});

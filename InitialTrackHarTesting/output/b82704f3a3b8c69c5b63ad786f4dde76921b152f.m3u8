@@ -1,0 +1,12 @@
+#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-TARGETDURATION:7
+#EXT-X-MEDIA-SEQUENCE:1
+#EXT-X-PLAYLIST-TYPE:VOD
+#EXTINF:6,
+default.jobtemplate.hls360_00001.ts
+#EXTINF:6,
+default.jobtemplate.hls360_00002.ts
+#EXTINF:4,
+default.jobtemplate.hls360_00003.ts
+#EXT-X-ENDLIST

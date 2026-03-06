@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Web Tracker Tracker</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Web Tracker Tracker</h1>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="how-to-use.html">How to Use</a>
+          <a href="#about">About</a>
+          <a href="dashboard.html">Dashboard</a>
+        </nav>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container">
+        <h2>Making Web Tracking Human Readable</h2>
+        <p>
+          Educational browser extension and reporting interface that visualizes
+          how websites track and collect user data.
+        </p>
+        <button onclick="goToHowTo()">How to Use Extension</button>
+        <button onclick="goToDashboard()">View Live Dashboard</button>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container">
+        <h2>Project Purpose</h2>
+        <p>
+          This project provides a human-readable representation of web tracking
+          mechanisms including third-party scripts, fingerprinting, analytics,
+          and advertising trackers.
+        </p>
+
+        <h2>Project Scope</h2>
+        <ul>
+          <li>Educational visualization of tracking mechanisms</li>
+          <li>Tracker categorization (Analytics, Ads, Fingerprinting)</li>
+          <li>Risk score calculation</li>
+          <li>Open-source GPLv3 approach</li>
+        </ul>
+
+        <h2>Project Phases</h2>
+        <p>
+          Research → System Design → Detection → Classification → Extension
+          Development → Reporting Interface → Evaluation
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      <p>ICT Infrastructure Project | 2026 | Open Source GPLv3</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

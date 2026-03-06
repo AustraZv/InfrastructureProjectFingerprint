@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tracker Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Tracker Dashboard</h1>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="dashboard.html">Dashboard</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container">
+        <h2>Detected Tracker Categories</h2>
+
+        <div class="cards">
+          <div class="card">
+            <h3>Analytics</h3>
+            <p id="analyticsCount">0</p>
+          </div>
+
+          <div class="card">
+            <h3>Advertising</h3>
+            <p id="adsCount">0</p>
+          </div>
+
+          <div class="card">
+            <h3>Fingerprinting</h3>
+            <p id="fingerCount">0</p>
+          </div>
+        </div>
+
+        <h2>Privacy Risk Score</h2>
+        <div class="risk-box">
+          <p id="riskScore">Calculating...</p>
+        </div>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,333 @@
+{
+  "yourDetection": [
+    {
+      "name": "Amazon Ads",
+      "category": "advertising",
+      "risk": 7,
+      "domain": "amazon-adsystem.com",
+      "source": "internal",
+      "url": "https://s.amazon-adsystem.com/iu3?d=amazon.com&slot=navFooter&a2=010146f2bbbbbea52637a6234fcee76f69bd4ec8bfb7e9b89dcfa9b1dc81f398405b&old_oo=0&ts=1772197936029&s=AQYhmxTe0YuFL5WfS3KIIW5meEvmvdDOnWDs2CWrJdjl&gdpr_consent=&gdpr_consent_avl=&cb=1772197936029"
+    },
+    {
+      "name": "Google Ads / DoubleClick",
+      "category": "advertising",
+      "risk": 7,
+      "domain": "doubleclick.net",
+      "source": "internal",
+      "url": "https://cm.g.doubleclick.net/pixel?google_nid=a9&google_cm&ex=doubleclick.net&gdpr_consent="
+    },
+    {
+      "name": "Taboola",
+      "category": "advertising",
+      "risk": 7,
+      "domain": "taboola.com",
+      "source": "internal",
+      "url": "https://sync.taboola.com/sg/amazon-a9-network/1/rtb"
+    }
+  ],
+  "trackharAnalysis": [],
+  "thirdPartyDomains": [
+    {
+      "domain": "media-amazon.com",
+      "requestCount": 241,
+      "knownTracker": false,
+      "flagged": true,
+      "inferredCategory": "infrastructure"
+    },
+    {
+      "domain": "amazon-adsystem.com",
+      "requestCount": 15,
+      "knownTracker": true,
+      "flagged": false,
+      "inferredCategory": "known_tracker"
+    },
+    {
+      "domain": "ssl-images-amazon.com",
+      "requestCount": 9,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "infrastructure"
+    },
+    {
+      "domain": "awswaf.com",
+      "requestCount": 4,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "doubleclick.net",
+      "requestCount": 4,
+      "knownTracker": true,
+      "flagged": false,
+      "inferredCategory": "known_tracker"
+    },
+    {
+      "domain": "adnxs.com",
+      "requestCount": 3,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "mediarithmics.com",
+      "requestCount": 3,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "casalemedia.com",
+      "requestCount": 2,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "zeotap.com",
+      "requestCount": 2,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "fwmrm.net",
+      "requestCount": 2,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "demdex.net",
+      "requestCount": 2,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "scorecardresearch.com",
+      "requestCount": 2,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "openx.net",
+      "requestCount": 2,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "360yield.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "postrelease.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "agkn.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "smartadserver.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "bidswitch.net",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "yahoo.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "connatix.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "dmxleo.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "thisisdax.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "imdb.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "fout.jp",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "samplicio.us",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "sharethrough.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "samba.tv",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "rubiconproject.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "presage.io",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "mookie1.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "loopme.me",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "3lift.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "semasio.net",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "kargo.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "gumgum.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "pubmatic.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "exelator.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "ninthdecimal.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "ispot.tv",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "adscale.de",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "yieldmo.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "richaudience.com",
+      "requestCount": 1,
+      "knownTracker": false,
+      "flagged": false,
+      "inferredCategory": "low_frequency_unknown"
+    },
+    {
+      "domain": "taboola.com",
+      "requestCount": 1,
+      "knownTracker": true,
+      "flagged": false,
+      "inferredCategory": "known_tracker"
+    }
+  ],
+  "riskScore": 36
+}

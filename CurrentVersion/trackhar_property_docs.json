@@ -1,0 +1,67 @@
+{
+  "manufacturer": {
+    "shortText": "Device manufacturer was transmitted.",
+    "longText": "This value shows the manufacturer of the device. It can be used for fingerprinting or to develop an advertising profile. Users of rare phone brands or models are especially vulnerable to being uniquely identified.",
+    "severity": "medium"
+  },
+
+  "model": {
+    "shortText": "Device model was transmitted.",
+    "longText": "This value shows the model of the device. It can be used for fingerprinting or to develop an advertising profile. Users of rare phone models are especially vulnerable to identification.",
+    "severity": "high"
+  },
+
+  "osName": {
+    "shortText": "Operating system name was transmitted.",
+    "longText": "This value shows the name of the operating system on the device. It can be used for fingerprinting, but is most commonly used for analytics and compatibility purposes.",
+    "severity": "low"
+  },
+
+  "osVersion": {
+    "shortText": "Operating system version was transmitted.",
+    "longText": "This value shows the version of the operating system. If the value is simple, it reveals limited information. However, detailed version numbers with many digits can indicate minor releases. Since users often update at different times, this can act as a highly specific fingerprinting identifier.",
+    "severity": "high"
+  },
+
+  "language": {
+    "shortText": "User language preference was transmitted.",
+    "longText": "This value shows the display language chosen by the user. While it is often used for legitimate localization purposes, uncommon language settings can contribute to fingerprinting.",
+    "severity": "low"
+  },
+
+  "referer": {
+    "shortText": "Previous page (referer) was transmitted.",
+    "longText": "This value shows the webpage the user previously visited. It can be used for analytics, but also to track navigation paths, campaigns, or promotions.",
+    "severity": "low"
+  },
+
+  "propertyId": {
+    "shortText": "An analytics property identifier was sent.",
+    "longText": "This value identifies a tracking or analytics property configured by the website administrator. It is used to route collected data and can contribute to broad tracking and user interaction analysis.",
+    "severity": "low"
+  },
+
+  "consentState": {
+    "shortText": "Consent-state information was transmitted.",
+    "longText": "This value represents a user's consent (or lack of consent) to tracking. It is commonly used by Google systems to determine how data collection and processing should behave.\n\nExamples:\n- gcs: Encodes consent state (e.g. G100 = no consent, G111 = full consent).\n- gcd: Encodes consent state along with when and how consent was granted.\n\nThis allows tracking systems to adapt behavior based on user consent settings.",
+    "severity": "medium"
+  },
+
+  "screenHeight": {
+    "shortText": "Screen size information was transmitted.",
+    "longText": "This value represents the screen resolution of the device. It is used to optimize page layout, but can also contribute to fingerprinting. Some privacy-focused browsers use techniques like letterboxing to obscure this value.",
+    "severity": "low"
+  },
+
+  "screenWidth": {
+    "shortText": "Screen size information was transmitted.",
+    "longText": "This value represents the screen resolution of the device. It is used to optimize page layout, but can also contribute to fingerprinting. Some privacy-focused browsers use techniques like letterboxing to obscure this value.",
+    "severity": "low"
+  },
+
+  "browserId": {
+    "shortText": "A unique browser identifier was transmitted.",
+    "longText": "This value is a unique identifier assigned when the browser first interacts with the tracker. It typically contains a unique ID and a timestamp, allowing the tracker to recognize the browser across sessions and build a persistent profile.",
+    "severity": "high"
+  }
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: sans-serif; padding: 10px; width: 300px; }
+    h3, h4 { margin: 10px 0 6px; }
+    p { margin: 4px 0; }
+    ul { margin: 6px 0; padding-left: 18px; }
+    .muted { color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h3>Privacy Report</h3>
+  <p>Risk Score: <strong id="risk">0</strong></p>
+  <p>Total Domains: <span id="domains">0</span></p>
+  <p>Trackers: <span id="trackers">0</span></p>
+  <p>Tracker Requests: <span id="trackerRequests">0</span></p>
+
+  <h4>TrackHAR Tracker Groups</h4>
+  <ul id="trackharGroups"></ul>
+
+  <h4>TrackHAR</h4>
+  <p>Status: <span id="trackharStatus">Not available</span></p>
+  <p>Matched Requests: <span id="trackharRequests">0</span></p>
+  <p>Detected Data Transmissions: <span id="trackharTransmissions">0</span></p>
+  <div class="muted" id="trackharError"></div>
+
+  <h4>Top TrackHAR Adapters</h4>
+  <ul id="trackharAdapters"></ul>
+
+  <button id="openFullReport">Open Full Report</button>
+
+  <button id="exportBtn">Download Full Report</button>
+  <script src="popup.js"></script>
+</body>
+</html>

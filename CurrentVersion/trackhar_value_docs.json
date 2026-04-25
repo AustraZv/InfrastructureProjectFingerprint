@@ -1,0 +1,19 @@
+{
+  "deviceId": {
+    "default": "This value appears to be an identifier intended to persist across requests or sessions."
+  },
+  "clientId": {
+    "default": "This value appears to identify a browser, app instance, or analytics client."
+  },
+  "sessionId": {
+    "default": "This value appears to represent a session-scoped identifier."
+  },
+  "gcs": {
+    "G100": "No consent",
+    "G111": "Full consent",
+    "default": "Consent state token"
+  },
+  "gcd": {
+    "default": "This is a compact encoded consent-detail token. Show the raw value together with a human-readable explanation."
+  }
+}

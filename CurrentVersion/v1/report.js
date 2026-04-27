@@ -8,8 +8,7 @@ function escapeHtml(value) {
 }
 
 function getQueryParam(name) {
-  const params = new URLSearchParams(window.location.search);
-  return params.get(name);
+  return new URLSearchParams(window.location.search).get(name);
 }
 
 function formatDate(value) {
@@ -48,6 +47,7 @@ function renderSummary(report) {
 
 function renderTopTrackers(trackers) {
   const el = document.getElementById("topTrackers");
+
   if (!trackers || !trackers.length) {
     el.innerHTML = `<p class="empty">No trackers listed.</p>`;
     return;
@@ -102,18 +102,21 @@ function groupFindings(findings) {
     if ((b.occurrences || 0) !== (a.occurrences || 0)) {
       return (b.occurrences || 0) - (a.occurrences || 0);
     }
+
     return String(a.tracker).localeCompare(String(b.tracker));
   });
 }
 
 function renderKeyFindings(findings) {
   const el = document.getElementById("keyFindings");
+
   if (!findings || !findings.length) {
     el.innerHTML = `<p class="empty">No TrackHAR-recognized data transmissions were detected for this page.</p>`;
     return;
   }
 
   const top = findings.slice(0, 6);
+
   el.innerHTML = top.map((finding) => `
     <div class="finding">
       <div class="finding-header">
@@ -125,6 +128,109 @@ function renderKeyFindings(findings) {
       <p>${escapeHtml(finding.longText || "No explanation available.")}</p>
     </div>
   `).join("");
+}
+
+function interpretGcs(value) {
+  const raw = String(value || "").trim().toUpperCase();
+
+  const meanings = {
+    G100: "INSERT AUSTRAS TEXT HERE.",
+    G110: "INSERT AUSTRAS TEXT HERE.",
+    G101: "INSERT AUSTRAS TEXT HERE.",
+    G111: "INSERT AUSTRAS TEXT HERE."
+  };
+
+  if (!meanings[raw]) return null;
+
+  return {
+    type: "GCS",
+    raw,
+    summary: meanings[raw],
+    details: [
+      //Also maybe here, is this explanation fine?
+      raw[2] === "1" ? "ad_storage: granted" : "ad_storage: denied",
+      raw[3] === "1" ? "analytics_storage: granted" : "analytics_storage: denied"
+    ]
+  };
+}
+
+function interpretGcd(value) {
+  const raw = String(value || "").trim().toLowerCase();
+
+  if (!raw || !/[a-z]/.test(raw)) return null;
+
+  const signalNames = [
+    "ad_storage",
+    "analytics_storage",
+    "ad_user_data",
+    "ad_personalization"
+  ];
+
+  const letterMeanings = {
+    l: "INSERT AUSTRAS TEXT HERE",
+    p: "INSERT AUSTRAS TEXT HERE",
+    q: "INSERT AUSTRAS TEXT HERE",
+    t: "INSERT AUSTRAS TEXT HERE",
+    r: "INSERT AUSTRAS TEXT HERE",
+    m: "INSERT AUSTRAS TEXT HERE",
+    n: "INSERT AUSTRAS TEXT HERE",
+    u: "INSERT AUSTRAS TEXT HERE",
+    v: "INSERT AUSTRAS TEXT HERE"
+  };
+
+  const letters = raw.match(/[a-z]/g) || [];
+
+  // If there are fewer letters than expected signals, we can't fully decode it, but we can still recognize it as a GCD signal
+  if (letters.length < 4) {
+    return {
+      type: "GCD",
+      raw,
+      summary: "Google Consent Mode v2 signal detected, but it could not be fully decoded.",
+      details: [`Raw GCD value: ${raw}`]
+    };
+  }
+
+  return {
+    type: "GCD",
+    raw,
+    summary: "Google Consent Mode v2 consent state detected.",
+    details: signalNames.map((signal, index) => {
+      const code = letters[index];
+      return `${signal}: ${letterMeanings[code] || `Unknown code "${code}"`}`;
+    })
+  };
+}
+
+function interpretConsentValue(property, value) {
+  const prop = String(property || "").toLowerCase();
+  const raw = String(value || "").trim();
+
+  if (!raw) return null;
+
+  if (prop === "gcs" || /^G1[01][01]$/i.test(raw)) {
+    return interpretGcs(raw);
+  }
+
+  if (prop === "gcd" || prop === "consentstate") {
+    return interpretGcd(raw);
+  }
+
+  return null;
+}
+
+function renderConsentInterpretation(property, value) {
+  const interpreted = interpretConsentValue(property, value);
+  if (!interpreted) return "";
+
+  return `
+    <div class="consent-explanation">
+      <strong>${escapeHtml(interpreted.type)} interpretation:</strong>
+      <p>${escapeHtml(interpreted.summary)}</p>
+      <ul>
+        ${interpreted.details.map((detail) => `<li>${escapeHtml(detail)}</li>`).join("")}
+      </ul>
+    </div>
+  `;
 }
 
 function renderConsentSignals(findings) {
@@ -150,7 +256,10 @@ function renderConsentSignals(findings) {
       <div class="meta">Tracker: ${escapeHtml(finding.tracker || "Unknown")}</div>
       <div class="meta">Seen in ${escapeHtml(finding.occurrences || 1)} request(s)</div>
       <p>${escapeHtml(finding.longText || "")}</p>
-      <div class="value-box"><strong>Value:</strong> ${escapeHtml(finding.value ?? "")}</div>
+      <div class="value-box">
+        <strong>Value:</strong> ${escapeHtml(finding.value ?? "")}
+        ${renderConsentInterpretation(finding.property, finding.value)}
+      </div>
     </div>
   `).join("");
 }
@@ -169,26 +278,27 @@ function renderTrackerGroups(groups) {
 
     const adapters = Object.entries(group.adapters || {})
       .sort((a, b) => b[1] - a[1])
-      .slice(0, 6)
+      .slice(0, 8)
       .map(([name, count]) => `${escapeHtml(name)} (${escapeHtml(count)})`)
       .join(", ");
 
     const properties = Object.entries(group.properties || {})
       .sort((a, b) => b[1] - a[1])
-      .slice(0, 6)
+      .slice(0, 8)
       .map(([name, count]) => `${escapeHtml(name)} (${escapeHtml(count)})`)
       .join(", ");
 
     return `
       <div class="finding">
         <div class="finding-header">
-          <div class="finding-title">
-            ${escapeHtml(tracker.name || tracker.slug || "Unknown tracker")}
-          </div>
+          <div class="finding-title">${escapeHtml(tracker.name || tracker.slug || "Unknown tracker")}</div>
           <span class="badge medium">${escapeHtml(group.count || 0)} transmission(s)</span>
         </div>
 
-        <p>${escapeHtml(tracker.description || "TrackHAR detected data transmissions associated with this tracker.")}</p>
+        <p>${escapeHtml(
+          tracker.description ||
+          "TrackHAR detected data transmissions associated with this tracker."
+        )}</p>
 
         <div class="meta">Slug: ${escapeHtml(tracker.slug || "unknown")}</div>
         <div class="meta">Datarequests.org slug: ${escapeHtml(tracker.datenanfragenSlug || "not mapped")}</div>
@@ -202,6 +312,7 @@ function renderTrackerGroups(groups) {
 
 function renderAllFindings(findings) {
   const el = document.getElementById("allFindings");
+
   if (!findings || !findings.length) {
     el.innerHTML = `<p class="empty">No TrackHAR-recognized data transmissions were detected for this page.</p>`;
     return;
@@ -225,6 +336,7 @@ function renderAllFindings(findings) {
       <div class="value-box">
         <strong>Value:</strong><br />
         ${escapeHtml(finding.value)}
+        ${renderConsentInterpretation(finding.property, finding.value)}
       </div>
     </div>
   `).join("");
@@ -261,7 +373,6 @@ function buildHumanReadableFinding(hit, propertyDocs, valueDocs) {
 
   if (property === "gcs") {
     shortText = "Google consent-state data was sent.";
-
     longText =
       "This request contains a Google consent-state parameter. It is used to communicate a user's consent choices to Google's systems so they can determine how analytics or advertising-related processing should behave for that request.";
 
@@ -276,7 +387,6 @@ function buildHumanReadableFinding(hit, propertyDocs, valueDocs) {
 
   if (property === "gcd") {
     shortText = "Google consent detail data was sent.";
-
     longText =
       "This request contains a Google consent detail parameter. It is a compact encoded value related to consent handling. Unlike a simple yes-or-no consent signal, this value can reveal more detail about when and how consent was granted, denied, or updated.";
 
@@ -289,10 +399,8 @@ function buildHumanReadableFinding(hit, propertyDocs, valueDocs) {
 
   if (property === "consentState") {
     shortText = "Consent-state information was sent.";
-
     longText =
       "This property communicates consent-related state to the analytics platform. It reflects how consent choices were represented for the request and can affect how measurement or advertising-related behavior is handled.";
-
     severity = "medium";
   }
 
@@ -322,9 +430,10 @@ async function loadDocs() {
     fetch(browser.runtime.getURL("trackhar_value_docs.json"))
   ]);
 
-  const propertyDocs = propertyRes.ok ? await propertyRes.json() : {};
-  const valueDocs = valueRes.ok ? await valueRes.json() : {};
-  return { propertyDocs, valueDocs };
+  return {
+    propertyDocs: propertyRes.ok ? await propertyRes.json() : {},
+    valueDocs: valueRes.ok ? await valueRes.json() : {}
+  };
 }
 
 async function loadReportData(tabId) {
@@ -344,6 +453,13 @@ function normalizeTrackharHits(report) {
     || [];
 }
 
+function normalizeTrackerGroups(report) {
+  return report.trackhar?.trackerGroups
+    || report.analysis?.trackhar?.trackerGroups
+    || report.analysis?.topTrackHARGroups
+    || [];
+}
+
 async function init() {
   const tabId = getQueryParam("tabId");
   const subtitle = document.getElementById("reportSubtitle");
@@ -354,6 +470,7 @@ async function init() {
   }
 
   const report = await loadReportData(tabId);
+
   if (!report) {
     subtitle.textContent = "No stored report found for this tab.";
     return;
@@ -364,9 +481,8 @@ async function init() {
   const { propertyDocs, valueDocs } = await loadDocs();
   const rawHits = normalizeTrackharHits(report);
 
-  const findings = rawHits.map(hit => buildHumanReadableFinding(hit, propertyDocs, valueDocs));
-  const uniqueFindings = dedupeFindings(findings);
-  const groupedFindings = groupFindings(uniqueFindings);
+  const findings = rawHits.map((hit) => buildHumanReadableFinding(hit, propertyDocs, valueDocs));
+  const groupedFindings = groupFindings(dedupeFindings(findings));
 
   const enrichedReport = {
     ...report,
@@ -377,58 +493,9 @@ async function init() {
   renderTopTrackers(normalizeTrackers(enrichedReport));
   renderKeyFindings(groupedFindings);
   renderConsentSignals(groupedFindings);
-  renderTrackerGroups(report.trackhar?.trackerGroups || []);
+  renderTrackerGroups(normalizeTrackerGroups(report));
   renderAllFindings(groupedFindings);
   renderRawAnalysis(enrichedReport);
-  
-}
-
-function renderTrackerGroups(groups) {
-  const el = document.getElementById("trackerGroups");
-  if (!el) return;
-
-  if (!groups || !groups.length) {
-    el.innerHTML = `<p class="empty">No TrackHAR tracker groups detected.</p>`;
-    return;
-  }
-
-  el.innerHTML = groups.map((group) => {
-    const tracker = group.tracker || {};
-
-    const adapters = Object.entries(group.adapters || {})
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 8)
-      .map(([name, count]) => `${escapeHtml(name)} (${escapeHtml(count)})`)
-      .join(", ");
-
-    const properties = Object.entries(group.properties || {})
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 8)
-      .map(([name, count]) => `${escapeHtml(name)} (${escapeHtml(count)})`)
-      .join(", ");
-
-    return `
-      <div class="finding">
-        <div class="finding-header">
-          <div class="finding-title">
-            ${escapeHtml(tracker.name || tracker.slug || "Unknown tracker")}
-          </div>
-          <span class="badge medium">${escapeHtml(group.count || 0)} transmission(s)</span>
-        </div>
-
-        <p>${escapeHtml(
-          tracker.description ||
-          "TrackHAR detected data transmissions associated with this tracker."
-        )}</p>
-
-        <div class="meta">Slug: ${escapeHtml(tracker.slug || "unknown")}</div>
-        <div class="meta">Datarequests.org slug: ${escapeHtml(tracker.datenanfragenSlug || "not mapped")}</div>
-        <div class="meta">Exodus ID: ${escapeHtml(tracker.exodusId || 0)}</div>
-        <div class="meta">Adapters: ${adapters || "unknown"}</div>
-        <div class="meta">Properties: ${properties || "unknown"}</div>
-      </div>
-    `;
-  }).join("");
 }
 
 init().catch((err) => {

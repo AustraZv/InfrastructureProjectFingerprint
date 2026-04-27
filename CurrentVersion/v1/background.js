@@ -612,57 +612,47 @@ function analyzeCookieSync(tab) {
     topCookieSync: topCookieSync
   };
 }
+function severityFromTrackHARProperty(property) {
+  var high = ["email", "phone", "deviceId", "userId", "advertisingId", "browserId"];
+  var medium = ["gcs", "gcd", "consentState", "sessionId", "clientId", "viewedPage"];
+
+  if (high.indexOf(property) >= 0) return "high";
+  if (medium.indexOf(property) >= 0) return "medium";
+  return "low";
+}
 
 function calculateRisk(tab, trackharResult) {
-  var grouped = {};
+  var transmissions = trackharResult && trackharResult.transmissions
+    ? trackharResult.transmissions
+    : [];
+
   var score = 0;
+  var seen = {};
 
-  for (var i = 0; i < tab.entries.length; i++) {
-    var entry = tab.entries[i];
-    if (!entry._tracker && !entry._heuristicTracker) continue;
+  for (var i = 0; i < transmissions.length; i++) {
+    var t = transmissions[i];
 
-    var key = entry._service || entry._owner || entry.domain || "Unknown";
-    if (!grouped[key]) {
-      grouped[key] = {
-        category: entry._category || "unknown",
-        thirdParty: !!entry._thirdParty,
-        confidence: entry._confidence || "unknown",
-        count: 0
-      };
+    var key = [
+      t.tracker || "",
+      t.adapter || "",
+      t.property || "",
+      String(t.value || ""),
+      t.context || "",
+      t.path || ""
+    ].join("||");
+
+    if (seen[key]) continue;
+    seen[key] = true;
+
+    var severity = severityFromTrackHARProperty(t.property);
+
+    if (severity === "high") {
+      score += 10;
+    } else if (severity === "medium") {
+      score += 5;
+    } else {
+      score += 1;
     }
-
-    grouped[key].count += 1;
-  }
-
-  Object.keys(grouped).forEach(function (key) {
-    var item = grouped[key];
-
-    switch (item.category) {
-      case "fingerprinting":
-        score += 8;
-        break;
-      case "tracking":
-        score += 6;
-        break;
-      case "ads":
-        score += 4;
-        break;
-      case "analytics":
-        score += 2;
-        break;
-      default:
-        score += 2;
-        break;
-    }
-
-    if (item.thirdParty) score += 2;
-    if (item.confidence === "heuristic") score += 1;
-    score += Math.min(item.count, 5);
-  });
-
-  if (trackharResult && trackharResult.available) {
-    score += Math.min(trackharResult.requestMatches * 2, 10);
-    score += Math.min(trackharResult.transmissionCount, 10);
   }
 
   return score;

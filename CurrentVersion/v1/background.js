@@ -766,9 +766,9 @@ function saveTabReport(tabId) {
   return browser.storage.local.set({
     ["tab_" + tabId]: {
       page: {
-  url: tab.pageUrl || tab.url || "",
-  domain: tab.mainDomain || "",
-  scannedAt: new Date().toISOString()
+      url: tab.pageUrl || tab.url || "",
+      domain: tab.mainDomain || "",
+      scannedAt: new Date().toISOString()
       },
       summary: {
         riskScore: tab.risk || 0,
@@ -776,6 +776,7 @@ function saveTabReport(tabId) {
         thirdPartyDomains: tab.analysis.totalDomains || 0,
         trackerCount: tab.analysis.trackerCount || 0
       },
+      entries: tab.entries || [],
       topTrackers: tab.analysis.topTrackers || [],
       trackhar: {
       transmissions: tab.trackhar.transmissions || [],

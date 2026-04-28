@@ -460,6 +460,156 @@ function normalizeTrackerGroups(report) {
     || [];
 }
 
+
+function scoreForSeverity(severity) {
+  if (severity === "high") return 10;
+  if (severity === "medium") return 5;
+  return 1;
+}
+
+function renderRiskBreakdown(findings) {
+  const el = document.getElementById("riskBreakdown");
+  const btn = document.getElementById("toggleRiskBreakdown");
+
+  if (!el || !btn) return; 
+
+  el.style.display = "none";
+
+  el.innerHTML = (findings || []).map((finding) => {
+    const severity = finding.severity || "low";
+    const points = severity === "high" ? 10 : severity === "medium" ? 5 : 1;
+
+    return `
+      <div class="breakdown-row">
+        <strong>${escapeHtml(finding.tracker)} → ${escapeHtml(finding.property)}</strong>
+        <div class="meta">Severity: ${severity}</div>
+        <div class="meta">Score: +${points}</div>
+      </div>
+    `;
+  }).join("");
+
+  btn.addEventListener("click", () => {
+    const hidden = el.style.display === "none";
+    el.style.display = hidden ? "block" : "none";
+  });
+}
+
+function renderRequestList(report) {
+  const el = document.getElementById("requestList");
+  const btn = document.getElementById("toggleRequests");
+
+  if (!el || !btn) return; 
+
+  el.style.display = "none";
+
+  const requests = report.entries || [];
+
+  el.innerHTML = requests.map((req) => `
+    <div class="request-row">
+      <div><strong>${req.method || "GET"}</strong> ${req.status || ""}</div>
+      <div class="request-url">${escapeHtml(req.url || "")}</div>
+    </div>
+  `).join("");
+
+  btn.addEventListener("click", () => {
+    const hidden = el.style.display === "none";
+    el.style.display = hidden ? "block" : "none";
+  });
+}
+
+
+function renderTrackharPropertyList(report) {
+  const el = document.getElementById("trackharPropertyList");
+  const btn = document.getElementById("toggleTrackharProperties");
+
+  if (!el || !btn) return;
+
+  el.style.display = "none";
+
+  const hits = normalizeTrackharHits(report);
+  const grouped = {};
+
+  for (const hit of hits || []) {
+    const property = hit.property || "unknownProperty";
+
+    if (!grouped[property]) {
+      grouped[property] = {
+        property,
+        count: 0,
+        trackers: {},
+        contexts: {},
+        paths: {},
+        values: {}
+      };
+    }
+
+    grouped[property].count += 1;
+
+    grouped[property].trackers[hit.tracker || hit.adapter || "Unknown tracker"] =
+      (grouped[property].trackers[hit.tracker || hit.adapter || "Unknown tracker"] || 0) + 1;
+
+    grouped[property].contexts[hit.context || "unknown"] =
+      (grouped[property].contexts[hit.context || "unknown"] || 0) + 1;
+
+    grouped[property].paths[hit.path || "unknown"] =
+      (grouped[property].paths[hit.path || "unknown"] || 0) + 1;
+
+    const value = String(hit.value ?? "");
+    if (value) {
+      grouped[property].values[value] = (grouped[property].values[value] || 0) + 1;
+    }
+  }
+
+  const rows = Object.values(grouped).sort((a, b) => b.count - a.count);
+
+  if (!rows.length) {
+    el.innerHTML = `<p class="empty">No TrackHAR properties detected.</p>`;
+  } else {
+    el.innerHTML = rows.map((item) => {
+      const trackers = Object.entries(item.trackers)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 6)
+        .map(([name, count]) => `${escapeHtml(name)} (${escapeHtml(count)})`)
+        .join(", ");
+
+      const contexts = Object.entries(item.contexts)
+        .sort((a, b) => b[1] - a[1])
+        .map(([name, count]) => `${escapeHtml(name)} (${escapeHtml(count)})`)
+        .join(", ");
+
+      const paths = Object.entries(item.paths)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 8)
+        .map(([name, count]) => `${escapeHtml(name)} (${escapeHtml(count)})`)
+        .join(", ");
+
+      const values = Object.entries(item.values)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([value, count]) => `${escapeHtml(value)} (${escapeHtml(count)})`)
+        .join(", ");
+
+      return `
+        <div class="breakdown-row">
+          <strong>${escapeHtml(item.property)}</strong>
+          <div class="meta">Detected: ${escapeHtml(item.count)} time(s)</div>
+          <div class="meta">Trackers: ${trackers || "unknown"}</div>
+          <div class="meta">Contexts: ${contexts || "unknown"}</div>
+          <div class="meta">Paths: ${paths || "unknown"}</div>
+          <div class="meta">Example values: ${values || "none stored"}</div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  btn.addEventListener("click", () => {
+    const hidden = el.style.display === "none";
+    el.style.display = hidden ? "block" : "none";
+    btn.textContent = hidden
+      ? "Hide TrackHAR properties"
+      : "Show TrackHAR properties";
+  });
+}
 async function init() {
   const tabId = getQueryParam("tabId");
   const subtitle = document.getElementById("reportSubtitle");
@@ -496,9 +646,13 @@ async function init() {
   renderTrackerGroups(normalizeTrackerGroups(report));
   renderAllFindings(groupedFindings);
   renderRawAnalysis(enrichedReport);
+  renderRiskBreakdown(groupedFindings);
+  renderRequestList(report);
+  
 }
 
 init().catch((err) => {
   console.error("Failed to load full report:", err);
   document.getElementById("reportSubtitle").textContent = "Failed to load report.";
 });
+

@@ -85,15 +85,7 @@ renderList("trackharGroups", groups, function (item) {
   return (tracker.name || tracker.slug || "Unknown tracker") + " (" + item.count + ")";
 }, "No TrackHAR tracker groups yet");
 
-  var available = !!(tab.analysis && tab.analysis.trackharAvailable);
-  setText("trackharStatus", available ? "Loaded" : "Not available");
-  setText("trackharRequests", (tab.analysis && tab.analysis.trackharRequestMatches) || 0);
-  setText("trackharTransmissions", (tab.analysis && tab.analysis.trackharTransmissionCount) || 0);
-  setText("trackharError", (tab.analysis && tab.analysis.trackharError) || "");
-
-  renderList("trackharAdapters", (tab.analysis && tab.analysis.topTrackHARAdapters) || [], function (item) {
-    return item.name + " (" + item.count + ")";
-  }, "No TrackHAR matches yet");
+  
 }
 
 function renderList(id, items, formatter, emptyText) {

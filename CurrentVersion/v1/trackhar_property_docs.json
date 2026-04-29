@@ -38,13 +38,16 @@
   "propertyId": {
     "shortText": "An analytics property identifier was sent.",
     "longText": "This value identifies a tracking or analytics property configured by the website administrator. It is used to route collected data and can contribute to broad tracking and user interaction analysis.",
-    "severity": "low"
+    "severity": "low",
+    "source":"https://developers.google.com/analytics/devguides/reporting/data/v1/property-id"
+
   },
 
   "consentState": {
     "shortText": "Consent-state information was transmitted.",
     "longText": "This value represents a user's consent (or lack of consent) to tracking. It is commonly used by Google systems to determine how data collection and processing should behave.\n\nExamples:\n- gcs: Encodes consent state (e.g. G100 = no consent, G111 = full consent).\n- gcd: Encodes consent state along with when and how consent was granted.\n\nThis allows tracking systems to adapt behavior based on user consent settings.",
-    "severity": "medium"
+    "severity": "medium",
+    "source": "https://www.simoahava.com/analytics/consent-mode-v2-google-tags/#how-do-i-check-if-consent-mode-is-active"
   },
 
   "screenHeight": {
@@ -57,11 +60,54 @@
     "shortText": "Screen size information was transmitted.",
     "longText": "This value represents the screen resolution of the device. It is used to optimize page layout, but can also contribute to fingerprinting. Some privacy-focused browsers use techniques like letterboxing to obscure this value.",
     "severity": "low"
+
   },
 
   "browserId": {
     "shortText": "A unique browser identifier was transmitted.",
     "longText": "This value is a unique identifier assigned when the browser first interacts with the tracker. It typically contains a unique ID and a timestamp, allowing the tracker to recognize the browser across sessions and build a persistent profile.",
-    "severity": "high"
+    "severity": "high",
+    "source" : "https://louder.com.au/2022/06/27/client-id-in-ga4-what-is-it-and-how-to-get-it-in-your-report/"
+
+  },
+  "userAgent": {
+    "shortText": "User Agent information was sent.",
+    "longText" : "This property represents your Operating system, Browser version and Browser engine version. This property is both crucial information and Potential fingerprinting data. Knowing the browser and OS of the user allows a developer to ensure that a website works properly. Some web pages fail to display on Firefox browsers for example. It ensures that software links are always representative of your OS. However, browser versions vary in frequency. As a result, this can also be a revealing datapoint for fingerprinting.",
+    "severity" : "high",
+    "source" : "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/User-Agent"
+  },
+  "otherIdentifiers":{
+    "shortText":"A non specific identifier was sent",
+    "longText":"This property represents various strings that are used to identify a user. For example, the Google session identifier falls in this category, which is a string used to identify a single continious session.",
+    "severity":"low"
+  },
+  "viewedPage":{
+    "shortText" : "Information related to the current page was sent",
+    "longText" : "This information relates to the current viewed page. It can include the current web address, the specific sub-page and/or the name of the tab. This is mostly used for analytics, allowing information on a users behavior to be easily categorized per the specific page they were on. Alternatively, this can be used to track campaigns in the form of subdomains.",
+    "severity" : "medium",
+    "source" : "https://www.seosteph.co.uk/analytics/page-location-vs-page-path/"
+  },
+  "sessionId":{
+    "shortText": "Information relating to the current session was sent",
+    "longText": "Session ID is an identifier that uniquely identifies a single session to a website. It corresponds to a timestamp of the start of your session. While usually defaulted to short periods, sessions typically have unlimited lengths, allowing for long form usage to be collected under the guise of a single browser session.  ",
+    "severity": "medium",
+    "source": "https://developers.google.com/analytics/devguides/reporting/data/v1/property-id"
+  },
+  "sessionCount":{
+    "shortText":"Information Showing total number of sessions was sent",
+    "longText":"Session Count is usually used in combination with SessionID to show the ammount of unique sessions started by the client. ",
+    "severity":"high"
+  },
+  "isUserActive":{
+    "shortText":"User activity status was sent",
+    "longText" : "This shows the current activity status of the user, activity is measured based on if the session has lasted longer than 10 seconds, the user has engaged with a defined target event or if the user has multiple pageviews in a single session. 0 means no, 1 means yes. ",
+    "severity" : "high",
+    "source": "https://support.google.com/analytics/answer/12798876?hl=en"
+  },
+  "userActiveTime":{
+    "shortText": "User activity time was measured",
+    "longText" : "This value is representative of the total length of the time the session was considered active.",
+    "severity" : "high"
   }
+
 }

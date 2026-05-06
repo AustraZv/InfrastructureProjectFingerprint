@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -56,4 +56,94 @@
 
   <script src="report.js"></script>
 </body>
+</html>-->
+
+<!--<body>
+  <div class="report-container">
+    <h3>Privacy Report</h3>
+
+    
+    <div class="stats-grid">
+      <div class="card">
+        Risk Score
+        <span id="risk">0</span>
+      </div>
+
+      <div class="card">
+        Domains
+        <span id="domains">0</span>
+      </div>
+
+      <div class="card">
+        Trackers
+        <span id="trackers">0</span>
+      </div>
+
+      <div class="card">
+        Requests
+        <span id="trackerRequests">0</span>
+      </div>
+    </div>
+
+   
+    <div class="section">
+      <h4>TrackHAR Tracker Groups</h4>
+      <ul id="trackharGroups"></ul>
+    </div>
+
+    <button id="openFullReport">Open Full Report</button>
+  </div>
+</body>-->
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Full Privacy Report</title>
+
+    <!-- CSS LINK -->
+    <link rel="stylesheet" href="report.css" />
+  </head>
+
+  <body>
+    <div class="report-container">
+      <h3>Privacy Report</h3>
+
+      <!-- Status (IMPORTANT: prevents blank screen issues) -->
+      <p id="status" class="muted"></p>
+
+      <!-- STATS GRID -->
+      <div class="stats-grid">
+        <div class="card">
+          Risk Score
+          <span id="risk">0</span>
+        </div>
+
+        <div class="card">
+          Domains
+          <span id="domains">0</span>
+        </div>
+
+        <div class="card">
+          Trackers
+          <span id="trackers">0</span>
+        </div>
+
+        <div class="card">
+          Requests
+          <span id="trackerRequests">0</span>
+        </div>
+      </div>
+
+      <!-- TRACKER SECTION -->
+      <div class="section">
+        <h4>TrackHAR Tracker Groups</h4>
+        <ul id="trackharGroups"></ul>
+      </div>
+
+      <!-- BUTTON -->
+      <button id="openFullReport">Open Full Report</button>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
 </html>

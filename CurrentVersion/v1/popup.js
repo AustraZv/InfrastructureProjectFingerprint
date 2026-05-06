@@ -9,12 +9,15 @@ async function initPopup() {
     var openBtn = document.getElementById("openFullReport");
     if (openBtn) {
       openBtn.addEventListener("click", async function () {
-        var tabs = await browser.tabs.query({ active: true, currentWindow: true });
+        var tabs = await browser.tabs.query({
+          active: true,
+          currentWindow: true,
+        });
         var activeTab = tabs[0];
         if (!activeTab) return;
 
         browser.tabs.create({
-          url: browser.runtime.getURL("report.html?tabId=" + activeTab.id)
+          url: browser.runtime.getURL("report.html?tabId=" + activeTab.id),
         });
       });
     }
@@ -25,7 +28,10 @@ async function initPopup() {
         try {
           console.log("Export button clicked");
 
-          var tabs = await browser.tabs.query({ active: true, currentWindow: true });
+          var tabs = await browser.tabs.query({
+            active: true,
+            currentWindow: true,
+          });
           var activeTab = tabs[0];
           if (!activeTab) {
             throw new Error("No active tab found");
@@ -73,27 +79,51 @@ function render(tab) {
   setText("risk", tab.risk || 0);
   setText("domains", (tab.analysis && tab.analysis.totalDomains) || 0);
   setText("trackers", (tab.analysis && tab.analysis.trackerCount) || 0);
-  setText("trackerRequests", (tab.analysis && tab.analysis.trackerRequests) || 0);
+  setText(
+    "trackerRequests",
+    (tab.analysis && tab.analysis.trackerRequests) || 0,
+  );
 
   var groups =
-  (tab.trackhar && tab.trackhar.trackerGroups) ||
-  (tab.analysis && tab.analysis.topTrackHARGroups) ||
-  [];
+    (tab.trackhar && tab.trackhar.trackerGroups) ||
+    (tab.analysis && tab.analysis.topTrackHARGroups) ||
+    [];
 
-renderList("trackharGroups", groups, function (item) {
-  var tracker = item.tracker || {};
-  return (tracker.name || tracker.slug || "Unknown tracker") + " (" + item.count + ")";
-}, "No TrackHAR tracker groups yet");
+  renderList(
+    "trackharGroups",
+    groups,
+    function (item) {
+      var tracker = item.tracker || {};
+      return (
+        (tracker.name || tracker.slug || "Unknown tracker") +
+        " (" +
+        item.count +
+        ")"
+      );
+    },
+    "No TrackHAR tracker groups yet",
+  );
 
   var available = !!(tab.analysis && tab.analysis.trackharAvailable);
   setText("trackharStatus", available ? "Loaded" : "Not available");
-  setText("trackharRequests", (tab.analysis && tab.analysis.trackharRequestMatches) || 0);
-  setText("trackharTransmissions", (tab.analysis && tab.analysis.trackharTransmissionCount) || 0);
+  setText(
+    "trackharRequests",
+    (tab.analysis && tab.analysis.trackharRequestMatches) || 0,
+  );
+  setText(
+    "trackharTransmissions",
+    (tab.analysis && tab.analysis.trackharTransmissionCount) || 0,
+  );
   setText("trackharError", (tab.analysis && tab.analysis.trackharError) || "");
 
-  renderList("trackharAdapters", (tab.analysis && tab.analysis.topTrackHARAdapters) || [], function (item) {
-    return item.name + " (" + item.count + ")";
-  }, "No TrackHAR matches yet");
+  renderList(
+    "trackharAdapters",
+    (tab.analysis && tab.analysis.topTrackHARAdapters) || [],
+    function (item) {
+      return item.name + " (" + item.count + ")";
+    },
+    "No TrackHAR matches yet",
+  );
 }
 
 function renderList(id, items, formatter, emptyText) {
@@ -141,6 +171,6 @@ async function exportReport(tabId) {
 
   await browser.runtime.sendMessage({
     type: "export-html-report",
-    report: report
+    report: report,
   });
-}
+} //

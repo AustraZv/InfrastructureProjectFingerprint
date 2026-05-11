@@ -1,8 +1,8 @@
 .secondary-button {
   padding: 8px 12px;
-  border: 1px solid #cfd8e3;
+  border: 1px solid #3081FF;
   border-radius: 8px;
-  background: white;
+  background: black;
   cursor: pointer;
   font-weight: 600;
 }
@@ -17,7 +17,7 @@
   padding: 10px;
   border: 1px solid #d8e0ec;
   border-radius: 8px;
-  background: #f8fafc;
+  background: #96afc8;
 }
 
 .request-url {

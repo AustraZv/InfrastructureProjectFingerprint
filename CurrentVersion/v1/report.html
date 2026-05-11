@@ -1,57 +1,75 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Privacy Tracker Scanner - Full Report</title>
-    <link rel="stylesheet" href="report.css" />
-  </head>
-  <body>
-    <main class="container">
-      <header class="hero">
-        <h1>Full Privacy Report</h1>
-        <p id="reportSubtitle">Loading report...</p>
-      </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Tracker Scanner - Full Report</title>
+  <link rel="stylesheet" href="report.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="hero">
+      <h1>Full Privacy Report</h1>
+      <p id="reportSubtitle">Loading report...</p>
+    </header>
 
-      <section class="card">
-        <h2>Summary</h2>
-        <div id="summaryGrid" class="summary-grid"></div>
-      </section>
+    <section class="card">
+      <h2>Summary</h2>
+      <div id="summaryGrid" class="summary-grid"></div>
+    </section>
 
-      <section class="card">
-        <h2>Top Trackers</h2>
-        <div id="topTrackers"></div>
-      </section>
+    <section class="card">
+      <button id="toggleRiskBreakdown" class="secondary-button">
+        Show risk score breakdown
+      </button>
+      <div id="riskBreakdown" style="display:none;"></div>
+    </section>
 
-      <section class="card">
-        <h2>Key Findings</h2>
-        <div id="keyFindings"></div>
-      </section>
+  
 
-      <section class="card">
-        <h2>Consent-Related Signals</h2>
-        <div id="consentSignals"></div>
-      </section>
+    <section class="card">
+      <h2>Top Trackers</h2>
+      <div id="topTrackers"></div>
+    </section>
 
-      <section class="card">
-        <h2>TrackHAR Tracker Groups</h2>
-        <div id="trackerGroups"></div>
-      </section>
+    <section class="card">
+      <h2>Key Findings</h2>
+      <div id="keyFindings"></div>
+    </section>
 
-      <section class="card">
-        <h2>All Data Transmissions</h2>
-        <div id="allFindings"></div>
-      </section>
+    <section class="card">
+      <h2>Consent-Related Signals</h2>
+      <div id="consentSignals"></div>
+    </section>
 
-      <section class="card">
-        <h2>Technical Details</h2>
-        <details>
-          <summary>Show raw analysis</summary>
-          <pre id="rawAnalysis"></pre>
-        </details>
-      </section>
-    </main>
+    <section class="card">
+      <h2>TrackHAR Tracker Groups</h2>
+      <div id="trackerGroups"></div>
+    </section>
 
-    <script src="report.js"></script>
-  </body>
+    <section class="card">
+      <button id="toggleRequests" class="secondary-button">
+        Show all requests
+      </button>
+      <div id="requestList" style="display:none;"></div>
+    </section>
+
+    <section class="card">
+      <h2>View Raw Findings</h2>
+      <div id="allFindings"></div>
+    </section>
+
+  
+
+    <section class="card">
+      <h2>Technical Details</h2>
+      <details>
+        <summary>Show raw analysis</summary>
+        <pre id="rawAnalysis"></pre>
+      </details>
+    </section>
+  </main>
+
+  <script src="report.js"></script>
+</body>
 </html>

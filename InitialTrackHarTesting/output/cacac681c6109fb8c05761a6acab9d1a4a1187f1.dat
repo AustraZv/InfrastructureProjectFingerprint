@@ -1,2 +1,0 @@
-importScripts("/api/web-push-notification/v1/static/latest/mol-fe-web-push-sw/sw.js");
-//# sourceMappingURL=sw.js.map

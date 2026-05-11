@@ -134,10 +134,10 @@ function interpretGcs(value) {
   const raw = String(value || "").trim().toUpperCase();
 
   const meanings = {
-    G100: "INSERT AUSTRAS TEXT HERE.",
-    G110: "INSERT AUSTRAS TEXT HERE.",
-    G101: "INSERT AUSTRAS TEXT HERE.",
-    G111: "INSERT AUSTRAS TEXT HERE."
+    G100: "This value shows that no consent has been granted for either Google Ads or Google Analytics.",
+    G110: "This value shows that Google Ads has been granted consent for tracking, however, Google Analytics does not have consent for tracking.",
+    G101: "This value shows that Google Analytics has been granted consent for tracking, however, Google Analytics does not have consent.",
+    G111: "This value shows that both Google Ads and Google Analytics have been granted consent for tracking purposes."
   };
 
   if (!meanings[raw]) return null;
@@ -167,15 +167,15 @@ function interpretGcd(value) {
   ];
 
   const letterMeanings = {
-    l: "INSERT AUSTRAS TEXT HERE",
-    p: "INSERT AUSTRAS TEXT HERE",
-    q: "INSERT AUSTRAS TEXT HERE",
-    t: "INSERT AUSTRAS TEXT HERE",
-    r: "INSERT AUSTRAS TEXT HERE",
-    m: "INSERT AUSTRAS TEXT HERE",
-    n: "INSERT AUSTRAS TEXT HERE",
-    u: "INSERT AUSTRAS TEXT HERE",
-    v: "INSERT AUSTRAS TEXT HERE"
+    l: "has not been set with consent mode, possibly not used, possibly uses Consent mode V1 for consent tracking, possibly ignores consent.",
+    p: "is disabled. The default setting is disabled, consent has not been communicated",
+    q: "is disabled. The default setting is disabled, consent has been denied",
+    t: "is enabled. The default setting is enabled, consent has not been communicated.",
+    r: "is enabled. The default setting is disabled, consent has been granted",
+    m: "is disabled. Consent has been denied. There is no default setting",
+    n: "is enabled. Consent has been granted. There is no default setting",
+    u: "is enabled. Consent has been denied. The default setting is enabled",
+    v: "is enabled. Consent has been granted. The default setting is enabled."
   };
 
   const letters = raw.match(/[a-z]/g) || [];
@@ -193,7 +193,7 @@ function interpretGcd(value) {
   return {
     type: "GCD",
     raw,
-    summary: "Google Consent Mode v2 consent state detected.",
+    summary: "Google Consent Mode v2 consent state detected. Google Consent Mode v2 is the new system for tracking user consent by Google. In theory, it should enable GDPR compliance. In practice, its parameters allow collection without asking for consent. Make sure that your values match your consent, and make sure there is no tracking by default.\n \"ad_storage\", if enabled, allows storage of advertising related data on your browser. \"ad_user_data\", if enabled, allows your data to be sent to Google for advertising purposes. \n \"ad_personalization\", if enabled, allows personalized advertisements. \n \"analytics_storage\", if enabled, allows storage related to analytics(for example, visit duration) \n Source : https://www.simoahava.com/analytics/consent-mode-v2-google-tags/#how-do-i-check-if-consent-mode-is-active ",
     details: signalNames.map((signal, index) => {
       const code = letters[index];
       return `${signal}: ${letterMeanings[code] || `Unknown code "${code}"`}`;
@@ -259,6 +259,7 @@ function renderConsentSignals(findings) {
       <div class="value-box">
         <strong>Value:</strong> ${escapeHtml(finding.value ?? "")}
         ${renderConsentInterpretation(finding.property, finding.value)}
+
       </div>
     </div>
   `).join("");
@@ -374,7 +375,7 @@ function buildHumanReadableFinding(hit, propertyDocs, valueDocs) {
   if (property === "gcs") {
     shortText = "Google consent-state data was sent.";
     longText =
-      "This request contains a Google consent-state parameter. It is used to communicate a user's consent choices to Google's systems so they can determine how analytics or advertising-related processing should behave for that request.";
+      "This request contains a Google consent-state parameter. It is used to communicate a user's consent choices to Google's systems so they can determine how analytics or advertising-related processing should behave for that request. ";
 
     if (valueInfo && valueInfo[String(value)]) {
       longText += ` This specific value means: ${valueInfo[String(value)]}.`;
@@ -403,6 +404,21 @@ function buildHumanReadableFinding(hit, propertyDocs, valueDocs) {
       "This property communicates consent-related state to the analytics platform. It reflects how consent choices were represented for the request and can affect how measurement or advertising-related behavior is handled.";
     severity = "medium";
   }
+ 
+  if (property === "userAgent") {
+    shortText = "User Agent information was sent.";
+    longText =
+      "This property represents your Operating system, Browser version and Browser engine version. This property is both crucial information and Potential fingerprinting data. Knowing the browser and OS of the user allows a developer to ensure that a website works properly. Some web pages fail to display on Firefox browsers for example. It ensures that software links are always representative of your OS. However, browser versions vary in frequency. As a result, user agent can also be a revealing datapoint for fingerprinting.";
+    severity = "low";
+  }
+
+    if (property === "otherIdentifiers") {
+    shortText = "Various identifiers were sent.";
+    longText =
+      "This property represents various strings that are used to identify a user. For example, the Google session identifier falls in this category, which is a string used to identify a single continious session.";
+    severity = "medium";
+  }
+
 
   if (property !== "gcs" && property !== "gcd") {
     if (valueInfo && valueInfo[String(value)]) {
@@ -460,6 +476,156 @@ function normalizeTrackerGroups(report) {
     || [];
 }
 
+
+function scoreForSeverity(severity) {
+  if (severity === "high") return 10;
+  if (severity === "medium") return 5;
+  return 1;
+}
+
+function renderRiskBreakdown(findings) {
+  const el = document.getElementById("riskBreakdown");
+  const btn = document.getElementById("toggleRiskBreakdown");
+
+  if (!el || !btn) return; 
+
+  el.style.display = "none";
+
+  el.innerHTML = (findings || []).map((finding) => {
+    const severity = finding.severity || "low";
+    const points = severity === "high" ? 10 : severity === "medium" ? 5 : 1;
+
+    return `
+      <div class="breakdown-row">
+        <strong>${escapeHtml(finding.tracker)} → ${escapeHtml(finding.property)}</strong>
+        <div class="meta">Severity: ${severity}</div>
+        <div class="meta">Score: +${points}</div>
+      </div>
+    `;
+  }).join("");
+
+  btn.addEventListener("click", () => {
+    const hidden = el.style.display === "none";
+    el.style.display = hidden ? "block" : "none";
+  });
+}
+
+function renderRequestList(report) {
+  const el = document.getElementById("requestList");
+  const btn = document.getElementById("toggleRequests");
+
+  if (!el || !btn) return; 
+
+  el.style.display = "none";
+
+  const requests = report.entries || [];
+
+  el.innerHTML = requests.map((req) => `
+    <div class="request-row">
+      <div><strong>${req.method || "GET"}</strong> ${req.status || ""}</div>
+      <div class="request-url">${escapeHtml(req.url || "")}</div>
+    </div>
+  `).join("");
+
+  btn.addEventListener("click", () => {
+    const hidden = el.style.display === "none";
+    el.style.display = hidden ? "block" : "none";
+  });
+}
+
+
+function renderTrackharPropertyList(report) {
+  const el = document.getElementById("trackharPropertyList");
+  const btn = document.getElementById("toggleTrackharProperties");
+
+  if (!el || !btn) return;
+
+  el.style.display = "none";
+
+  const hits = normalizeTrackharHits(report);
+  const grouped = {};
+
+  for (const hit of hits || []) {
+    const property = hit.property || "unknownProperty";
+
+    if (!grouped[property]) {
+      grouped[property] = {
+        property,
+        count: 0,
+        trackers: {},
+        contexts: {},
+        paths: {},
+        values: {}
+      };
+    }
+
+    grouped[property].count += 1;
+
+    grouped[property].trackers[hit.tracker || hit.adapter || "Unknown tracker"] =
+      (grouped[property].trackers[hit.tracker || hit.adapter || "Unknown tracker"] || 0) + 1;
+
+    grouped[property].contexts[hit.context || "unknown"] =
+      (grouped[property].contexts[hit.context || "unknown"] || 0) + 1;
+
+    grouped[property].paths[hit.path || "unknown"] =
+      (grouped[property].paths[hit.path || "unknown"] || 0) + 1;
+
+    const value = String(hit.value ?? "");
+    if (value) {
+      grouped[property].values[value] = (grouped[property].values[value] || 0) + 1;
+    }
+  }
+
+  const rows = Object.values(grouped).sort((a, b) => b.count - a.count);
+
+  if (!rows.length) {
+    el.innerHTML = `<p class="empty">No TrackHAR properties detected.</p>`;
+  } else {
+    el.innerHTML = rows.map((item) => {
+      const trackers = Object.entries(item.trackers)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 6)
+        .map(([name, count]) => `${escapeHtml(name)} (${escapeHtml(count)})`)
+        .join(", ");
+
+      const contexts = Object.entries(item.contexts)
+        .sort((a, b) => b[1] - a[1])
+        .map(([name, count]) => `${escapeHtml(name)} (${escapeHtml(count)})`)
+        .join(", ");
+
+      const paths = Object.entries(item.paths)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 8)
+        .map(([name, count]) => `${escapeHtml(name)} (${escapeHtml(count)})`)
+        .join(", ");
+
+      const values = Object.entries(item.values)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([value, count]) => `${escapeHtml(value)} (${escapeHtml(count)})`)
+        .join(", ");
+
+      return `
+        <div class="breakdown-row">
+          <strong>${escapeHtml(item.property)}</strong>
+          <div class="meta">Detected: ${escapeHtml(item.count)} time(s)</div>
+          <div class="meta">Trackers: ${trackers || "unknown"}</div>
+          <div class="meta">Contexts: ${contexts || "unknown"}</div>
+          <div class="meta">Paths: ${paths || "unknown"}</div>
+          <div class="meta">Example values: ${values || "none stored"}</div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  btn.addEventListener("click", () => {
+    const hidden = el.style.display === "none";
+    el.style.display = hidden ? "block" : "none";
+    btn.textContent = hidden
+      ? "Hide TrackHAR properties"
+      : "Show TrackHAR properties";
+  });
+}
 async function init() {
   const tabId = getQueryParam("tabId");
   const subtitle = document.getElementById("reportSubtitle");
@@ -496,9 +662,13 @@ async function init() {
   renderTrackerGroups(normalizeTrackerGroups(report));
   renderAllFindings(groupedFindings);
   renderRawAnalysis(enrichedReport);
+  renderRiskBreakdown(groupedFindings);
+  renderRequestList(report);
+  
 }
 
 init().catch((err) => {
   console.error("Failed to load full report:", err);
   document.getElementById("reportSubtitle").textContent = "Failed to load report.";
 });
+

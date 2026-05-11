@@ -25,8 +25,7 @@
 }
 
 body {
-  width: 340px;
-  min-height: 450px;
+  min-height: 100vh;
   padding: 15px;
   font-family: sans-serif;
   background: var(--bg-color);
@@ -148,4 +147,10 @@ footer,
   color: var(--muted-color);
   border-top: 1px solid var(--border-color);
   padding-top: 10px;
+}
+.container {
+  max-width: 1100px;
+  margin-left: 80px;
+  margin-right: auto;
+  padding: 20px 40px;
 }

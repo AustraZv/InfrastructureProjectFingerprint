@@ -1,149 +1,57 @@
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Privacy Tracker Scanner - Full Report</title>
-  <link rel="stylesheet" href="report.css" />
-</head>
-<body>
-  <main class="container">
-    <header class="hero">
-      <h1>Full Privacy Report</h1>
-      <p id="reportSubtitle">Loading report...</p>
-    </header>
-
-    <section class="card">
-      <h2>Summary</h2>
-      <div id="summaryGrid" class="summary-grid"></div>
-    </section>
-
-    <section class="card">
-      <h2>Top Trackers</h2>
-      <div id="topTrackers"></div>
-    </section>
-
-    <section class="card">
-      <h2>Key Findings</h2>
-      <div id="keyFindings"></div>
-    </section>
-
-    <section class="card">
-      <h2>Consent-Related Signals</h2>
-      <div id="consentSignals"></div>
-    </section>
-
-    <section class="card">
-      <h2>TrackHAR Tracker Groups</h2>
-      <div id="trackerGroups"></div>
-    </section>
-
-    
-
-    <section class="card">
-      <h2>All Data Transmissions</h2>
-      <div id="allFindings"></div>
-    </section>
-
-    <section class="card">
-      <h2>Technical Details</h2>
-      <details>
-        <summary>Show raw analysis</summary>
-        <pre id="rawAnalysis"></pre>
-      </details>
-    </section>
-  </main>
-
-  <script src="report.js"></script>
-</body>
-</html>-->
-
-<!--<body>
-  <div class="report-container">
-    <h3>Privacy Report</h3>
-
-    
-    <div class="stats-grid">
-      <div class="card">
-        Risk Score
-        <span id="risk">0</span>
-      </div>
-
-      <div class="card">
-        Domains
-        <span id="domains">0</span>
-      </div>
-
-      <div class="card">
-        Trackers
-        <span id="trackers">0</span>
-      </div>
-
-      <div class="card">
-        Requests
-        <span id="trackerRequests">0</span>
-      </div>
-    </div>
-
-   
-    <div class="section">
-      <h4>TrackHAR Tracker Groups</h4>
-      <ul id="trackharGroups"></ul>
-    </div>
-
-    <button id="openFullReport">Open Full Report</button>
-  </div>
-</body>-->
 <!doctype html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <title>Full Privacy Report</title>
-
-    <!-- CSS LINK -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Tracker Scanner - Full Report</title>
     <link rel="stylesheet" href="report.css" />
   </head>
-
   <body>
-    <div class="report-container">
-      <h3>Privacy Report</h3>
+    <main class="container">
+      <header class="hero">
+        <h1>Full Privacy Report</h1>
+        <p id="reportSubtitle">Loading report...</p>
+      </header>
 
-      <!-- Status (IMPORTANT: prevents blank screen issues) -->
-      <p id="status" class="muted"></p>
+      <section class="card">
+        <h2>Summary</h2>
+        <div id="summaryGrid" class="summary-grid"></div>
+      </section>
 
-      <!-- STATS GRID -->
-      <div class="stats-grid">
-        <div class="card">
-          Risk Score
-          <span id="risk">0</span>
-        </div>
+      <section class="card">
+        <h2>Top Trackers</h2>
+        <div id="topTrackers"></div>
+      </section>
 
-        <div class="card">
-          Domains
-          <span id="domains">0</span>
-        </div>
+      <section class="card">
+        <h2>Key Findings</h2>
+        <div id="keyFindings"></div>
+      </section>
 
-        <div class="card">
-          Trackers
-          <span id="trackers">0</span>
-        </div>
+      <section class="card">
+        <h2>Consent-Related Signals</h2>
+        <div id="consentSignals"></div>
+      </section>
 
-        <div class="card">
-          Requests
-          <span id="trackerRequests">0</span>
-        </div>
-      </div>
+      <section class="card">
+        <h2>TrackHAR Tracker Groups</h2>
+        <div id="trackerGroups"></div>
+      </section>
 
-      <!-- TRACKER SECTION -->
-      <div class="section">
-        <h4>TrackHAR Tracker Groups</h4>
-        <ul id="trackharGroups"></ul>
-      </div>
+      <section class="card">
+        <h2>All Data Transmissions</h2>
+        <div id="allFindings"></div>
+      </section>
 
-      <!-- BUTTON -->
-      <button id="openFullReport">Open Full Report</button>
-    </div>
+      <section class="card">
+        <h2>Technical Details</h2>
+        <details>
+          <summary>Show raw analysis</summary>
+          <pre id="rawAnalysis"></pre>
+        </details>
+      </section>
+    </main>
 
-    <script src="popup.js"></script>
+    <script src="report.js"></script>
   </body>
 </html>

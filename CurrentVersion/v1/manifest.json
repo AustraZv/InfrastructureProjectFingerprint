@@ -3,6 +3,17 @@
   "name": "Privacy Tracker Scanner",
   "version": "1.2.0",
   "description": "Detects and analyzes third-party trackers using HAR logging and TrackHAR analysis.",
+  "browser_specific_settings": {
+  "gecko": {
+    "id": "webtrackertracker@cool",
+    "data_collection_permissions": {
+      "required": [
+        "none"
+      ]
+    },
+    "strict_min_version": "58.0"
+  }
+},
   "permissions": [
     "webRequest",
     "<all_urls>",
@@ -27,4 +38,5 @@
   "browser_action": {
     "default_popup": "popup.html"
   }
+  
 }
